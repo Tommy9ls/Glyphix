@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes shimmer {
+  0% { box-shadow: 0 4px 15px rgba(230,184,0,0.3); }
+  50% { box-shadow: 0 4px 25px rgba(230,184,0,0.6), 0 0 30px rgba(230,184,0,0.2); }
+  100% { box-shadow: 0 4px 15px rgba(230,184,0,0.3); }
+}
+
+@keyframes float-btn {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+.btn-gold {
+  animation: shimmer 2.5s ease-in-out infinite, float-btn 3s ease-in-out infinite;
+}
+
+.btn-gold:hover {
+  animation: none;
+  transform: scale(1.05);
+  box-shadow: 0 6px 30px rgba(230,184,0,0.6) !important;
+  transition: all 0.2s ease;
+}
