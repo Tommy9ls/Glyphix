@@ -165,7 +165,9 @@ function Hero() {
       <div
         className="absolute z-10 px-4 md:px-6"
         style={{
-          top: "48%",
+          // Sits above centre so the card lands inside the screen drawn in the
+          // background art rather than below it.
+          top: "42%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           maxWidth: 600,

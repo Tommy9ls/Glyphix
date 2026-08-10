@@ -589,13 +589,36 @@ function Anagrams() {
           </div>
         </div>
 
+        {/*
+          Found words sit *above* the pool so the tiles and controls stay in
+          easy thumb reach at the bottom of the screen. The box is a fixed
+          height that scrolls internally — letting it grow with the word count
+          would push the tiles down mid-round and move the tap targets.
+        */}
+        <div
+          style={{
+            flex: 1,
+            minHeight: 96,
+            maxHeight: '30vh',
+            overflowY: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            marginTop: 18,
+            padding: '14px 16px',
+            borderRadius: 16,
+            background: 'rgba(0,0,0,0.28)',
+            border: '1px solid rgba(255,255,255,0.1)',
+          }}
+        >
+          <FoundList found={found} puzzle={puzzle} />
+        </div>
+
         {/* Current word */}
         <motion.div
           animate={shake ? { x: [0, -8, 8, -6, 6, 0] } : { x: 0 }}
           transition={{ duration: 0.42 }}
           style={{
             minHeight: 52,
-            margin: '22px 0 16px',
+            margin: '18px 0 14px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -682,20 +705,6 @@ function Anagrams() {
           >
             Enter
           </button>
-        </div>
-
-        {/* Found words */}
-        <div
-          style={{
-            flex: 1,
-            marginTop: 22,
-            padding: '16px 18px',
-            borderRadius: 16,
-            background: 'rgba(0,0,0,0.28)',
-            border: '1px solid rgba(255,255,255,0.1)',
-          }}
-        >
-          <FoundList found={found} puzzle={puzzle} />
         </div>
 
         {finished && !modalOpen && (
