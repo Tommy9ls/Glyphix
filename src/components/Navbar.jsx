@@ -21,17 +21,15 @@ function Navbar() {
     zIndex: 50,
     display: "flex",
     justifyContent: "center",
-    padding: "16px 24px",
   }
 
+  // Widths, padding and gaps come from `.gx-nav*` in index.css so they can shrink
+  // at the mobile breakpoint; only the scroll-reactive colours stay inline.
   const navStyle = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "60%",
     maxWidth: 720,
-    minWidth: 320,
-    padding: "10px 24px",
     borderRadius: 999,
     background: scrolled ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.15)",
     backdropFilter: "blur(16px)",
@@ -44,7 +42,7 @@ function Navbar() {
 
   const logoStyle = {
     fontFamily: "'Cinzel', serif",
-    fontSize: 16,
+    fontSize: "clamp(14px, 3.6vw, 16px)",
     fontWeight: 700,
     color: scrolled ? "#1a1a1a" : "#fff",
     textShadow: scrolled ? "none" : "0 1px 4px rgba(0,0,0,0.3)",
@@ -61,15 +59,15 @@ function Navbar() {
   }
 
   return (
-    <div style={navContainerStyle}>
-      <nav style={navStyle}>
+    <div style={navContainerStyle} className="gx-nav-container">
+      <nav style={navStyle} className="gx-nav">
         <span style={logoStyle}>
           Glyph<span style={{ color: "#E6B800" }}>ix</span>
         </span>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <Link to="/leaderboard" style={linkStyle}>Leaderboard</Link>
-          <WalletButton />
+        <div style={{ display: "flex", alignItems: "center" }} className="gx-nav-links">
+          <Link to="/leaderboard" style={linkStyle} className="gx-nav-link">Leaderboard</Link>
+          <WalletButton className="gx-wallet-btn" />
         </div>
       </nav>
     </div>

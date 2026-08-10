@@ -26,17 +26,20 @@ function CanvasBackground() {
     resize()
     window.addEventListener("resize", resize)
 
-    const tiles = Array.from({ length: 24 }, () => ({
+    // Fewer, smaller, fainter tiles on a phone. At desktop counts they crowd
+    // the plaque card, which occupies most of a narrow viewport.
+    const narrow = window.innerWidth < 768
+    const tiles = Array.from({ length: narrow ? 10 : 24 }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
-      size: Math.random() * 18 + 32,
+      size: (Math.random() * 18 + 32) * (narrow ? 0.6 : 1),
       letter: TILES[Math.floor(Math.random() * TILES.length)],
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
       speedX: (Math.random() - 0.5) * 0.5,
       speedY: (Math.random() - 0.5) * 0.5,
       rotation: Math.random() * 360,
       rotSpeed: (Math.random() - 0.5) * 0.3,
-      opacity: Math.random() * 0.5 + 0.4,
+      opacity: (Math.random() * 0.5 + 0.4) * (narrow ? 0.55 : 1),
     }))
 
     const draw = () => {
@@ -102,11 +105,14 @@ function StartButton({ onClick }) {
       whileTap={{ scale: 0.96 }}
       style={{
         position: "relative",
-        padding: "12px 40px",
-        background: "transparent",
-        color: hovered ? "#1a1208" : "#000000",
+        // Solid gold by default. This used to be transparent with the fill
+        // swept in on hover, which meant touch devices — where hover never
+        // fires — only ever saw an empty gold outline.
+        padding: "12px clamp(28px, 8vw, 40px)",
+        background: "linear-gradient(135deg, #E6B800, #C9A000)",
+        color: "#1a1208",
         fontWeight: 700,
-        fontSize: "clamp(12px, 1.7vw, 14px)",
+        fontSize: "clamp(12px, 3.2vw, 14px)",
         border: "5px solid #E6B800",
         borderRadius: 999,
         cursor: "pointer",
@@ -114,10 +120,12 @@ function StartButton({ onClick }) {
         letterSpacing: "0.08em",
         textTransform: "uppercase",
         overflow: "hidden",
+        boxShadow: "0 4px 18px rgba(230,184,0,0.35)",
         transition: "color 0.35s ease",
       }}
     >
-      {/* Gold fill that sweeps in on hover */}
+      {/* Lighter sheen that sweeps across on hover — a desktop enhancement on
+          top of the solid fill, never the fill itself. */}
       <motion.div
         initial={false}
         animate={{ x: hovered ? "0%" : "-100%" }}
@@ -125,7 +133,7 @@ function StartButton({ onClick }) {
         style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(135deg, #E6B800, #C9A000)",
+          background: "linear-gradient(135deg, #FFD84D, #E6B800)",
           zIndex: 0,
         }}
       />
@@ -155,14 +163,13 @@ function Hero() {
       <CanvasBackground />
 
       <div
-        className="absolute z-10 px-6"
+        className="absolute z-10 px-4 md:px-6"
         style={{
           top: "48%",
-          left: "52.5%",
+          left: "50%",
           transform: "translate(-50%, -50%)",
           maxWidth: 600,
           width: "100%",
-      
         }}
       >
         <div style={{ position: "relative", maxWidth: 460, width: "100%" }}>
@@ -185,7 +192,7 @@ function Hero() {
               style={{
                 borderRadius: 12,
                 border: "1px solid rgba(230,184,0,0.5)",
-                padding: "50px 28px",
+                padding: "clamp(28px, 8vw, 50px) clamp(18px, 5vw, 28px)",
                 backgroundImage: "url('/card_bg.jpg')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",

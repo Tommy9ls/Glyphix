@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useNavigate } from "react-router-dom"
+import WalletButton from "../components/wallet/WalletButton"
 
 const TILE_COLORS = {
   correct: "#538d4e",
@@ -181,14 +182,12 @@ function GameHub() {
       <div style={{ position: "relative", zIndex: 5 }}>
 
         {/* Navbar */}
-        <div style={{ display: "flex", justifyContent: "center", padding: "16px 24px 0" }}>
-          <nav style={{
+        <div className="gx-nav-container" style={{ display: "flex", justifyContent: "center" }}>
+          <nav className="gx-nav" style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            width: "100%",
             maxWidth: 1100,
-            padding: "12px 28px",
             borderRadius: 999,
             background: "rgba(255,255,255,0.12)",
             backdropFilter: "blur(16px)",
@@ -200,7 +199,7 @@ function GameHub() {
               onClick={() => navigate("/")}
               style={{
                 fontFamily: "'Cinzel', serif",
-                fontSize: 20, fontWeight: 700,
+                fontSize: "clamp(15px, 4vw, 20px)", fontWeight: 700,
                 cursor: "pointer", color: "#fff",
                 textShadow: "0 2px 8px rgba(0,0,0,0.4)",
               }}
@@ -208,21 +207,8 @@ function GameHub() {
               Glyph<span style={{ color: "#E6B800" }}>ix</span>
             </span>
 
-            <button
-              className="btn-gold"
-              style={{
-                padding: "8px 24px",
-                background: "linear-gradient(135deg, #E6B800, #C9A000)",
-                color: "#1a1a1a", fontWeight: 700, fontSize: 13,
-                border: "2px solid #8B6914", borderRadius: 999,
-                cursor: "pointer", fontFamily: "Poppins, sans-serif",
-                letterSpacing: "0.05em", textTransform: "uppercase",
-                whiteSpace: "nowrap",
-                boxShadow: "0 4px 15px rgba(230,184,0,0.3)",
-              }}
-            >
-              Connected
-            </button>
+            {/* Was a hardcoded "Connected" pill with nothing behind it. */}
+            <WalletButton className="gx-wallet-btn" />
           </nav>
         </div>
 
@@ -259,10 +245,9 @@ function GameHub() {
         </div>
 
         {/* Carousel */}
-        <div style={{
+        <div className="gx-carousel" style={{
           maxWidth: 1100,
           margin: "0 auto",
-          padding: "20px 80px 40px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -273,26 +258,24 @@ function GameHub() {
           {/* Left arrow */}
           <button
             onClick={() => paginate(-1)}
+            className="gx-arrow"
             style={{
-              width: 48, height: 48,
               borderRadius: "50%",
               background: "rgba(255,255,255,0.15)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(255,255,255,0.3)",
-              color: "#fff", fontSize: 22,
+              color: "#fff",
               cursor: "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
               flexShrink: 0, zIndex: 10,
               transition: "background 0.2s",
             }}
-            onMouseEnter={e => e.currentTarget.style.background = "rgba(230,184,0,0.3)"}
-            onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.15)"}
           >
             ←
           </button>
 
           {/* Card viewport */}
-          <div style={{ width: 360, overflow: "hidden", position: "relative", height: 360 }}>
+          <div className="gx-card-viewport" style={{ overflow: "hidden", position: "relative" }}>
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <motion.div
                 key={current}
@@ -373,7 +356,8 @@ function GameHub() {
                 {/* Game name */}
                 <div style={{
                   fontFamily: "'Cinzel', serif",
-                  fontSize: 24, fontWeight: 700,
+                  fontSize: "clamp(19px, 5.5vw, 24px)", fontWeight: 700,
+                  maxWidth: "100%", overflowWrap: "break-word",
                   color: "#fff", textAlign: "center",
                   textShadow: "0 2px 12px rgba(0,0,0,0.5)",
                 }}>
@@ -429,20 +413,18 @@ function GameHub() {
           {/* Right arrow */}
           <button
             onClick={() => paginate(1)}
+            className="gx-arrow"
             style={{
-              width: 48, height: 48,
               borderRadius: "50%",
               background: "rgba(255,255,255,0.15)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(255,255,255,0.3)",
-              color: "#fff", fontSize: 22,
+              color: "#fff",
               cursor: "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
               flexShrink: 0, zIndex: 10,
               transition: "background 0.2s",
             }}
-            onMouseEnter={e => e.currentTarget.style.background = "rgba(230,184,0,0.3)"}
-            onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.15)"}
           >
             →
           </button>
@@ -467,7 +449,7 @@ function GameHub() {
         </div>
 
         {/* Leaderboard banner */}
-        <div style={{ maxWidth: 1100, margin: "0 auto 40px", padding: "0 80px" }}>
+        <div className="gx-hub-section" style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -513,9 +495,9 @@ function GameHub() {
         </div>
 
         {/* Footer */}
-        <div style={{
+        <div className="gx-hub-section" style={{
           borderTop: "1px solid rgba(255,255,255,0.1)",
-          padding: "20px 80px", maxWidth: 1100, margin: "0 auto",
+          paddingTop: 20, paddingBottom: 20, maxWidth: 1100, margin: "0 auto",
           display: "flex", alignItems: "center",
           justifyContent: "space-between", flexWrap: "wrap", gap: 12,
         }}>

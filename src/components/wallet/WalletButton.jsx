@@ -213,7 +213,7 @@ function WalletPicker({ open, onClose }) {
   )
 }
 
-function WalletButton({ style }) {
+function WalletButton({ style, className = '' }) {
   const { connected, connecting, publicKey, disconnect } = useWallet()
   const [pickerOpen, setPickerOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -226,6 +226,7 @@ function WalletButton({ style }) {
         <button
           type="button"
           onClick={() => setMenuOpen((v) => !v)}
+          className={className}
           style={{
             ...pill,
             background: 'rgba(230,184,0,0.14)',
@@ -315,7 +316,7 @@ function WalletButton({ style }) {
       <button
         type="button"
         onClick={() => setPickerOpen(true)}
-        className="btn-gold"
+        className={`btn-gold ${className}`}
         style={{ ...pill, ...style }}
       >
         {connecting ? 'Connecting…' : 'Connect Wallet'}
