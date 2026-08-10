@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { msUntilNextPuzzle, shareText } from '../../lib/wordle'
+import { MAX_GUESSES, msUntilNextPuzzle, shareText } from '../../lib/wordle'
 
 const GOLD = '#E6B800'
 
@@ -119,6 +119,10 @@ function ResultModal({
   }, [open])
 
   const won = status === 'won'
+  // Opening this panel mid-game (the 📊 button) must never leak the answer —
+  // the reveal below was previously gated on `won`, so an unfinished game fell
+  // into the "The word was ..." branch and handed the answer over.
+  const inProgress = status === 'playing'
 
   const handleShare = async () => {
     const text = shareText(guesses, answer, day)
@@ -188,7 +192,7 @@ function ResultModal({
                 textShadow: '0 2px 10px rgba(0,0,0,0.5)',
               }}
             >
-              {won ? 'Victory' : 'Out of Guesses'}
+              {inProgress ? 'Your Stats' : won ? 'Victory' : 'Out of Guesses'}
             </div>
 
             <div
@@ -219,7 +223,11 @@ function ResultModal({
                 lineHeight: 1.6,
               }}
             >
-              {won ? (
+              {inProgress ? (
+                <>
+                  {guesses.length} of {MAX_GUESSES} guesses used. Keep going.
+                </>
+              ) : won ? (
                 <>
                   Solved in {guesses.length}{' '}
                   {guesses.length === 1 ? 'guess' : 'guesses'}.
@@ -302,28 +310,32 @@ function ResultModal({
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={handleShare}
-                className="btn-gold"
-                style={{
-                  flex: 1,
-                  padding: '12px 0',
-                  background: `linear-gradient(135deg, ${GOLD}, #C9A000)`,
-                  color: '#1a1a1a',
-                  fontWeight: 700,
-                  fontSize: 12,
-                  border: '2px solid #8B6914',
-                  borderRadius: 999,
-                  cursor: 'pointer',
-                  fontFamily: 'Poppins, sans-serif',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {copied ? 'Copied!' : 'Share'}
-              </button>
+              {/* Sharing an unfinished game would post a partial grid, so the
+                  button only appears once the round is over. */}
+              {!inProgress && (
+                <button
+                  type="button"
+                  onClick={handleShare}
+                  className="btn-gold"
+                  style={{
+                    flex: 1,
+                    padding: '12px 0',
+                    background: `linear-gradient(135deg, ${GOLD}, #C9A000)`,
+                    color: '#1a1a1a',
+                    fontWeight: 700,
+                    fontSize: 12,
+                    border: '2px solid #8B6914',
+                    borderRadius: 999,
+                    cursor: 'pointer',
+                    fontFamily: 'Poppins, sans-serif',
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {copied ? 'Copied!' : 'Share'}
+                </button>
+              )}
             </div>
 
             {/*
@@ -349,7 +361,9 @@ function ResultModal({
               </div>
             )}
 
-            {onNextRound && roundsLeft > 0 && (
+            {/* Never offered mid-game: skipping to a fresh word would let a
+                player bail out of one they're stuck on for free. */}
+            {!inProgress && onNextRound && roundsLeft > 0 && (
               <button
                 type="button"
                 onClick={onNextRound}

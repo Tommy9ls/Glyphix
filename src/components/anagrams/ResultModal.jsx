@@ -72,6 +72,10 @@ function ResultModal({
   won,
   reason,
   summary,
+  // False while the round is still running: the 📊 button opens this same
+  // panel mid-round, and revealing the missed words then would hand over the
+  // whole answer list.
+  finished = true,
 }) {
   const [copied, setCopied] = useState(false)
 
@@ -107,7 +111,13 @@ function ResultModal({
     }
   }
 
-  const headline = won ? 'Pool cleared' : reason === 'time' ? "Time's up" : 'Round over'
+  const headline = !finished
+    ? 'Round in progress'
+    : won
+      ? 'Pool cleared'
+      : reason === 'time'
+        ? "Time's up"
+        : 'Round over'
 
   return (
     <AnimatePresence>
@@ -206,7 +216,7 @@ function ResultModal({
             )}
 
             <div style={{ marginTop: 20 }}>
-              <FoundList found={found} puzzle={puzzle} revealMissed />
+              <FoundList found={found} puzzle={puzzle} revealMissed={finished} />
             </div>
 
             {/*

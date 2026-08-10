@@ -195,7 +195,7 @@ function Hero() {
                 borderRadius: 12,
                 border: "1px solid rgba(230,184,0,0.5)",
                 padding: "clamp(28px, 8vw, 50px) clamp(18px, 5vw, 28px)",
-                backgroundImage: "url('/card_bg.jpg')",
+                backgroundImage: "url('/card_bg.png')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",

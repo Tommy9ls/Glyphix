@@ -6,6 +6,7 @@ import GameHub from './pages/GameHub'
 import Wordle from './pages/Wordle'
 import Anagrams from './pages/Anagrams'
 import Leaderboard from './pages/Leaderboard'
+import ThemeMusic from './components/audio/ThemeMusic'
 
 /**
  * The colour behind the page — what fills the overscroll gutters at the top and
@@ -39,6 +40,8 @@ function App() {
 
   return (
     <div style={{ minHeight: '100vh', background: pageColor, color: '#111827' }}>
+      {/* Outside <Routes> so navigating never unmounts it and restarts the track. */}
+      <ThemeMusic />
       <Routes>
         <Route path="/" element={<><Navbar /><Hero /></>} />
         <Route path="/games" element={<GameHub />} />
