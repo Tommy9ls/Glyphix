@@ -2,20 +2,39 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useNavigate } from "react-router-dom"
 
+const TILE_COLORS = {
+  correct: "#538d4e",
+  present: "#b59f3b",
+  absent: "#787c7e",
+}
+
+// `colors` lives on the game rather than in a parallel array, so reordering or
+// inserting a game can't desync the two and blank out the preview tiles.
 const games = [
   {
     id: "wordle",
     name: "Wordle",
     description: "Guess the hidden 5-letter word in 6 tries.",
     preview: ["G","R","E","A","T"],
+    colors: [TILE_COLORS.correct, TILE_COLORS.present, TILE_COLORS.absent, TILE_COLORS.correct, TILE_COLORS.present],
     status: "live",
-    players: "1,234",
+    players: "135",
+  },
+  {
+    id: "anagrams",
+    name: "Anagram Rush",
+    description: "Unscramble letters to find as many words as you can before time runs out!",
+    preview: ["R","A","N","G","E"],
+    colors: [TILE_COLORS.absent, TILE_COLORS.correct, TILE_COLORS.absent, TILE_COLORS.present, TILE_COLORS.correct],
+    status: "live",
+    players: "143",
   },
   {
     id: "word-fusion",
     name: "Word Fusion",
     description: "Find words by connecting letters in any direction.",
     preview: ["F","U","S","E","D"],
+    colors: [TILE_COLORS.present, TILE_COLORS.correct, TILE_COLORS.absent, TILE_COLORS.present, TILE_COLORS.correct],
     status: "soon",
     players: "0",
   },
@@ -24,30 +43,10 @@ const games = [
     name: "Word Chain",
     description: "Build word chains where each word starts with the last letter.",
     preview: ["C","A","T"],
+    colors: [TILE_COLORS.correct, TILE_COLORS.absent, TILE_COLORS.correct],
     status: "soon",
     players: "0",
   },
-  {
-    id: "anagram",
-    name: "Anagram Rush",
-    description: "Unscramble letters to find as many words as you can before time runs out!",
-    preview: ["R","A","N","G","E"],
-    status: "soon",
-    players: "0",
-  },
-]
-
-const TILE_COLORS = {
-  correct: "#538d4e",
-  present: "#b59f3b",
-  absent: "#787c7e",
-}
-
-const previewColors = [
-  [TILE_COLORS.correct, TILE_COLORS.present, TILE_COLORS.absent, TILE_COLORS.correct, TILE_COLORS.present],
-  [TILE_COLORS.present, TILE_COLORS.correct, TILE_COLORS.absent, TILE_COLORS.present, TILE_COLORS.correct],
-  [TILE_COLORS.correct, TILE_COLORS.absent, TILE_COLORS.correct],
-  [TILE_COLORS.absent, TILE_COLORS.correct, TILE_COLORS.absent, TILE_COLORS.present, TILE_COLORS.correct],
 ]
 
 function GameCard({ game, index, onClick }) {
@@ -83,7 +82,7 @@ function GameCard({ game, index, onClick }) {
             style={{
               width: 32, height: 32,
               borderRadius: 6,
-              background: previewColors[index][i],
+              background: game.colors[i],
               display: "flex", alignItems: "center", justifyContent: "center",
               color: "#fff", fontWeight: 700, fontSize: 12,
               fontFamily: "'Cinzel', serif",
@@ -359,7 +358,7 @@ function GameHub() {
                       transition={{ delay: i * 0.08, duration: 0.4 }}
                       style={{
                         width: 40, height: 40, borderRadius: 6,
-                        background: previewColors[current][i],
+                        background: games[current].colors[i],
                         display: "flex", alignItems: "center", justifyContent: "center",
                         color: "#fff", fontWeight: 700, fontSize: 16,
                         fontFamily: "'Cinzel', serif",

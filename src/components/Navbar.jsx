@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import WalletButton from "./wallet/WalletButton"
 
 function Navbar() {
-  const [connected, setConnected] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -59,22 +60,6 @@ function Navbar() {
     whiteSpace: "nowrap",
   }
 
-  const btnStyle = {
-    padding: "6px 16px",
-    background: "linear-gradient(135deg, #E6B800, #C9A000)",
-    color: "#1a1a1a",
-    fontWeight: 700,
-    fontSize: 12,
-    border: "2px solid #8B6914",
-    borderRadius: 999,
-    cursor: "pointer",
-    fontFamily: "Poppins, sans-serif",
-    letterSpacing: "0.05em",
-    textTransform: "uppercase",
-    whiteSpace: "nowrap",
-    boxShadow: "0 4px 15px rgba(230,184,0,0.3)",
-  }
-
   return (
     <div style={navContainerStyle}>
       <nav style={navStyle}>
@@ -83,15 +68,8 @@ function Navbar() {
         </span>
 
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          
-          <a href="#leaderboard" style={linkStyle}>Leaderboard</a>
-          <button
-            onClick={() => setConnected(!connected)}
-            className="btn-gold"
-            style={btnStyle}
-          >
-            {connected ? " Connected" : " Connect Wallet "}
-          </button>
+          <Link to="/leaderboard" style={linkStyle}>Leaderboard</Link>
+          <WalletButton />
         </div>
       </nav>
     </div>

@@ -6,19 +6,9 @@ const TILES = ["G","L","Y","P","H","I","X","W","O","R","D","S","P","L","A","Y","
 const COLORS = ["#E6B800","#C9A000","#538d4e","#b59f3b","#8B7355","#D85A30"]
 
 function CastleBackground() {
-  return (
-    <div
-      className="absolute inset-0 w-full h-full"
-      style={{
-        backgroundImage: "url('/home_bg.png')",
-        backgroundSize: "170%",
-        backgroundPosition: "center 30%",
-        backgroundRepeat: "no-repeat",
-        filter: "blur(2px) brightness(0.85)",
-        transform: "scale(1.05)",
-      }}
-    />
-  )
+  // Styling lives in index.css as `.hero-bg` rather than inline, because the
+  // mobile fix needs a media query that an inline style object can't express.
+  return <div className="absolute inset-0 w-full h-full hero-bg" />
 }
 
 function CanvasBackground() {

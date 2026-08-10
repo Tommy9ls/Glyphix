@@ -23,3 +23,45 @@
   box-shadow: 0 6px 30px rgba(230,184,0,0.6) !important;
   transition: all 0.2s ease;
 }
+
+/*
+ * Hero backdrop.
+ *
+ * `background-size: 170%` sets the width and lets the height follow the image's
+ * aspect ratio. On a wide desktop viewport that fills the section, but on a tall
+ * phone the scaled height falls well short of the screen and the page's white
+ * background shows through above and below. Narrow viewports switch to `cover`,
+ * which always fills at the cost of cropping. Desktop keeps the exact framing
+ * it had.
+ */
+.hero-bg {
+  background-image: url('/home_bg.png');
+  background-size: 170%;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  filter: blur(2px) brightness(0.85);
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .hero-bg {
+    background-size: cover;
+    background-position: center center;
+  }
+}
+
+.hero-bg {
+  background-image: url('/home_bg.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+  .hero-bg {
+    background-size: cover;
+    background-position: center top;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
